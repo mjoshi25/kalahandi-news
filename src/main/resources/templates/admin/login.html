@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#103d32">
+  <title>Admin sign in | Kalahandi Connect</title>
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body class="admin-login-page">
+  <main class="login-shell">
+    <section class="login-brand-panel">
+      <a class="brand login-brand" href="/">
+        <span class="brand-mark">K</span><span>Kalahandi <b>Connect</b><small>Local news. Local voices.</small></span>
+      </a>
+      <div class="login-brand-copy">
+        <span class="login-kicker"><span class="live-dot"></span> DISTRICT NEWSROOM</span>
+        <h1>Good journalism<br>starts with <em>trust.</em></h1>
+        <p>Review community submissions, verify contributor details, and publish reliable local stories from across Kalahandi.</p>
+      </div>
+      <div class="login-brand-foot"><span>କଳାହାଣ୍ଡି · ODISHA</span><span>ADMINISTRATION PORTAL</span></div>
+      <div class="login-orb login-orb-one"></div><div class="login-orb login-orb-two"></div>
+    </section>
+    <section class="login-form-panel">
+      <div class="login-form-top"><span class="eyebrow">SECURE ADMIN ACCESS</span><span class="secure-label"> <span>✓</span> Protected area</span></div>
+      <div class="login-form-content">
+        <div class="login-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.7 3.2 8.1 7.5 9.8 4.3-1.7 7.5-5.1 7.5-9.8V6L12 3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h2>Welcome back</h2><p class="login-subtitle">Sign in to manage and moderate local news.</p>
+        <div class="alert alert-error" th:if="${param.error}">The username or password was not recognised. Please try again.</div>
+        <div class="alert alert-success" th:if="${param.logout}">You have been signed out securely.</div>
+        <form method="post" action="/admin/login" class="admin-login-form">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <label for="username">Admin username<input id="username" name="username" required autocomplete="username" autofocus placeholder="Enter your admin username"></label>
+          <label for="password">Password<input id="password" name="password" type="password" required autocomplete="current-password" placeholder="Enter your password"></label>
+          <button class="button button-wide login-submit" type="submit">Sign in to dashboard <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="login-security-note"><span>▣</span> Admin access only. Activity is associated with your admin username.</p>
+      </div>
+      <a class="login-back-link" href="/">← Return to public news portal</a>
+    </section>
+  </main>
+</body>
+</html>
