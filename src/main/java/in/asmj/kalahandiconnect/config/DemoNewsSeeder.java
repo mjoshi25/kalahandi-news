@@ -2,6 +2,8 @@ package in.asmj.kalahandiconnect.config;
 
 import in.asmj.kalahandiconnect.model.NewsPost;
 import in.asmj.kalahandiconnect.repository.NewsPostRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,7 @@ import java.util.List;
 /** Inserts any missing, clearly labelled demo articles without overwriting existing news. */
 @Configuration
 public class DemoNewsSeeder {
+    private static final Logger log = LoggerFactory.getLogger(DemoNewsSeeder.class);
     @Bean
     ApplicationRunner seedDemoNews(NewsPostRepository repository) {
         return args -> {
@@ -41,7 +44,13 @@ public class DemoNewsSeeder {
             }
             if (!missing.isEmpty()) {
                 repository.saveAll(missing);
+                log.info("Inserted {} clearly labelled demo news stories into MongoDB.", missing.size());
+            } else {
+                log.info("All {} demo news stories already exist in MongoDB; no seed records inserted.", samples.size());
             }
+            long publishedDemoCount = repository.findByStatusAndMobileVerifiedTrueAndEmailVerifiedTrueOrderByCreatedAtDesc("PUBLISHED")
+                .stream().filter(p -> p.getReferenceNumber() != null && p.getReferenceNumber().startsWith("KAL-DEMO-")).count();
+            log.info("Verified/published demo stories visible to the homepage query: {}", publishedDemoCount);
         };
     }
 

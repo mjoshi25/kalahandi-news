@@ -50,3 +50,11 @@ Create a Web Service from this repository, runtime Docker or Java buildpack. For
 - Codes are admin reference codes only. They are not used as authentication secrets.
 - Upload accepts JPG, PNG, and WEBP up to 5 MB each, max 5 images. Configure Cloudinary upload restrictions and rate limiting/WAF for production before broad public launch.
 - Add a durable multi-admin account store, CAPTCHA/rate limiting, moderation reporting, retention policy, and formal audit event collection before high-volume production use.
+
+
+## Troubleshooting: admin login and demo news
+
+- In Render → your web service → **Environment**, set `APP_ADMIN_USERNAME` to the exact username you intend to type (for example `jtonpe`) and `APP_ADMIN_PASSWORD` to the matching strong password (12+ characters). Changing the username does not change the password. Save changes and redeploy/restart the service.
+- After restart, check Render logs for `Admin account configured for username '...'`. This logs the configured username only; the password is never logged. If it shows `admin` but you are entering `jtonpe`, update the Render environment variable or sign in with the configured username.
+- The startup logs also report whether demo stories were inserted and how many demo stories match the same published/verified query used by the homepage. Demo items are explicitly labelled `[DEMO]` and are illustrative, not real reporting.
+- If logs report six demo stories visible but the homepage remains empty, verify that the deployed service's `MONGODB_URI` points to the same database/cluster you are inspecting and that the latest deployment is running.
