@@ -20,9 +20,7 @@ public class SecurityConfig {
     @Bean UserDetailsService userDetailsService(PasswordEncoder encoder,
             @Value("${APP_ADMIN_USERNAME:admin}") String username,
             @Value("${APP_ADMIN_PASSWORD:}") String password) {
-				    	System.out.println("APP_ADMIN_USERNAME: " + username);
-    	System.out.println("APP_ADMIN_PASSWORD: " + password);
-        if (username == null || username.isBlank()) throw new IllegalStateException("Set APP_ADMIN_USERNAME to the admin username before starting the application.");
+		if (username == null || username.isBlank()) throw new IllegalStateException("Set APP_ADMIN_USERNAME to the admin username before starting the application.");
         if (password == null || password.isBlank() || password.length() < 12) throw new IllegalStateException("Set APP_ADMIN_PASSWORD to a strong password of at least 12 characters before starting the application.");
         log.info("Admin account configured for username '{}'. Password value is not logged.", username);
         return new InMemoryUserDetailsManager(User.withUsername(username).password(encoder.encode(password)).roles("ADMIN").build());
